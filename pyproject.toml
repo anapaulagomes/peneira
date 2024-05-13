@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "peneira"
+version = "0.1.0"
+description = "Academic papers from many sources in one command"
+authors = ["Ana Paula Gomes <apgomes88@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+jupyter = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+pre-commit = "^3.7.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
