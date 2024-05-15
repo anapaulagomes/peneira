@@ -3,8 +3,14 @@ import aiofiles
 import json
 
 
-async def write_results_to_file(results, filename):
+async def write_results_to_file(result_bundle, filename):
     async with aiofiles.open(filename, "w") as file:
-        for result in results:
-            await file.write(f"{json.dumps(result)}\n")
-    return results
+        for result in result_bundle.results:
+            capsule = {
+                "source": result_bundle.source,
+                "url": result_bundle.url,
+                "result": result,
+                "created_at": str(result_bundle.created_at),
+            }
+            await file.write(f"{json.dumps(capsule)}\n")
+    return result_bundle.results

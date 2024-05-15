@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 import httpx
 import pytest
@@ -21,20 +22,28 @@ async def test_no_results_due_to_end_of_pagination(respx_mock):
     respx_mock.get("/works").mock(return_value=httpx.Response(200, json=payload))
     query = "artificial intelligence AND public health"
 
-    results = await fetch_papers(query)
+    results_bundle = await fetch_papers(query)
 
-    assert results == []
+    assert results_bundle.results == []
 
 
 @pytest.mark.respx(base_url="https://api.openalex.org")
 async def test_return_all_results_from_first_page(respx_mock):
+    expected_url = (
+        "https://api.openalex.org/works?"
+        "search=machine%20learning%20AND%20public%20health&page=1&per-page=200"
+    )
+
     payload = json.loads(open("tests/sources/fixtures/works.json").read())
     respx_mock.get("/works").mock(return_value=httpx.Response(200, json=payload))
     query = "machine learning AND public health"
 
-    results = await fetch_papers(query)
+    results_bundle = await fetch_papers(query)
 
-    assert len(results) == 49
+    assert results_bundle.source == "open_alex"
+    assert results_bundle.url == expected_url
+    assert len(results_bundle.results) == 49
+    assert isinstance(results_bundle.created_at, datetime)
 
 
 @pytest.mark.respx(base_url="https://api.openalex.org")
@@ -43,9 +52,9 @@ async def test_add_support_to_pagination(respx_mock):
     respx_mock.get("/works").mock(return_value=httpx.Response(200, json=payload))
     query = "machine learning AND public health"
 
-    results = await fetch_papers(query, page=10)
+    results_bundle = await fetch_papers(query, page=10)
 
-    assert len(results) == 49
+    assert len(results_bundle.results) == 49
 
 
 @pytest.mark.parametrize(

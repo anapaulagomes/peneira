@@ -4,7 +4,9 @@ from unittest.mock import call
 
 from pn.exporters import write_results_to_file
 import aiofiles
+import time_machine
 
+from pn.sources import ResultBundle
 
 # taken from https://github.com/Tinche/aiofiles?tab=readme-ov-file#writing-tests-for-aiofiles
 aiofiles.threadpool.wrap.register(mock.MagicMock)(
@@ -12,6 +14,7 @@ aiofiles.threadpool.wrap.register(mock.MagicMock)(
 )
 
 
+@time_machine.travel("1970-01-01 00:00:00")
 async def test_write_results_to_file():
     results = [
         {
@@ -33,8 +36,26 @@ async def test_write_results_to_file():
             "created_date": "2023-06-06",
         },
     ]
+    call_data_1 = {
+        "source": "open_alex",
+        "url": "https://www.openalex.org",
+        "result": results[0],
+        "created_at": "1970-01-01 00:00:00",
+    }
+    call_data_2 = {
+        "source": "open_alex",
+        "url": "https://www.openalex.org",
+        "result": results[1],
+        "created_at": "1970-01-01 00:00:00",
+    }
+    expected_calls = [
+        call(f"{json.dumps(call_data_1)}\n"),
+        call(f"{json.dumps(call_data_2)}\n"),
+    ]
     filename = "results-from-tests.json"
-    expected_calls = [call(f"{json.dumps(result)}\n") for result in results]
+    result_bundle = ResultBundle(
+        url="https://www.openalex.org", source="open_alex", results=results
+    )
     read_file_chunks = [
         b"",
     ]
@@ -45,7 +66,7 @@ async def test_write_results_to_file():
     )
 
     with mock.patch("aiofiles.threadpool.sync_open", return_value=mock_file_stream):
-        received_results = await write_results_to_file(results, filename)
+        received_results = await write_results_to_file(result_bundle, filename)
 
         assert received_results == results
         mock_file_stream.write.assert_has_calls(expected_calls)
