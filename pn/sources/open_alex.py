@@ -24,8 +24,6 @@ async def establish_number_of_pages(query):
         payload = response.json()
         total = payload["meta"]["count"]
         pages = total / WORKS_PER_PAGE
-        if pages == 1:
-            return pages
-        if pages % 2 != 0:
+        if pages != 1 and pages % 2 != 0:
             pages += 1
-        return math.trunc(pages)
+        return math.trunc(pages), total

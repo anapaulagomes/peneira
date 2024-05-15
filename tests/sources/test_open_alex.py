@@ -58,7 +58,7 @@ async def test_add_support_to_pagination(respx_mock):
 
 
 @pytest.mark.parametrize(
-    "count,expected_pages",
+    "expected_total,expected_pages",
     [
         (340, 2),
         (49, 1),
@@ -69,12 +69,13 @@ async def test_add_support_to_pagination(respx_mock):
     ],
 )
 @pytest.mark.respx(base_url="https://api.openalex.org")
-async def test_establish_number_of_pages(respx_mock, count, expected_pages):
+async def test_establish_number_of_pages(respx_mock, expected_total, expected_pages):
     payload = json.loads(open("tests/sources/fixtures/works.json").read())
-    payload["meta"]["count"] = count
+    payload["meta"]["count"] = expected_total
     respx_mock.get("/works").mock(return_value=httpx.Response(200, json=payload))
     query = "machine learning AND public health"
 
-    number_of_pages = await establish_number_of_pages(query)
+    number_of_pages, total = await establish_number_of_pages(query)
 
     assert number_of_pages == expected_pages
+    assert total == expected_total

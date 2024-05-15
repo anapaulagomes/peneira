@@ -4,7 +4,7 @@ import json
 
 
 async def write_results_to_file(result_bundle, filename):
-    async with aiofiles.open(filename, "w") as file:
+    async with aiofiles.open(filename, "a") as file:
         for result in result_bundle.results:
             capsule = {
                 "source": result_bundle.source,

@@ -21,17 +21,17 @@ async def cli():
 )
 async def cli(query, filename):
     """Fetch articles from different sources using given QUERY."""
-    number_of_pages = await establish_number_of_pages(query)
-    tasks = [
-        write_results_to_file(await fetch_papers(query, page), filename)
-        for page in range(1, number_of_pages + 1)
-    ]
-    gathered = await asyncio.gather(*tasks)
+    number_of_pages, total = await establish_number_of_pages(query)
+    click.echo(
+        f"Fetching articles for OPEN_ALEX... {total} papers "
+        f"distributed in {number_of_pages} pages."
+    )
+    tasks = [fetch_papers(query, page) for page in range(1, number_of_pages + 1)]
+    results = await asyncio.gather(*tasks)
 
-    all_results = []
-    for results in gathered:
-        all_results.extend(results)
-    click.echo(f"Done. Pages: {number_of_pages} All results length: {len(all_results)}")
+    for result_bundle in results:
+        await write_results_to_file(result_bundle, filename)
+    click.echo("Done.")
 
 
 def main():
