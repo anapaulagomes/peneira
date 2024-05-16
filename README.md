@@ -10,16 +10,18 @@ in different sources and export the results.
 > DISCLAIMER: This is a work in progress. The code is under active development
 > and it's not ready for production use.
 
-## Sources available
+## Available sources
 
 - [x] [OpenAlex](https://openalex.org/)
-- [ ] [PubMed](https://pubmed.ncbi.nlm.nih.gov/)
 - [ ] [Semantic Scholar](https://www.semanticscholar.org/)
+
+...and many more to come!
 
 ### OpenAlex
 
-Here some details about this source:
+Here are some details about this source:
 
+* [OpenAlex data sources](https://help.openalex.org/how-it-works#our-data-sources)
 * [OpenAlex search syntax](https://docs.openalex.org/how-to-use-the-api/get-lists-of-entities/search-entities#boolean-searches)
 * [Open Alex filters](https://docs.openalex.org/api-entities/works/search-works)
 * [Open Alex rate limits and authentication](https://docs.openalex.org/how-to-use-the-api/rate-limits-and-authentication)
