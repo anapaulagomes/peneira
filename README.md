@@ -4,7 +4,11 @@
 
 It's time to sift through some articles 🤭
 
-> DISCLAIMER: This is a work in progress. The code is not yet ready for production.
+With this CLI you can search for papers for your research
+in different sources and export the results.
+
+> DISCLAIMER: This is a work in progress. The code is under active development
+> and it's not ready for production use.
 
 ## Sources available
 
