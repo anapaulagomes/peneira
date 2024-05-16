@@ -16,6 +16,16 @@ in different sources and export the results.
 - [ ] [PubMed](https://pubmed.ncbi.nlm.nih.gov/)
 - [ ] [Semantic Scholar](https://www.semanticscholar.org/)
 
+### OpenAlex
+
+Here some details about this source:
+
+* [OpenAlex search syntax](https://docs.openalex.org/how-to-use-the-api/get-lists-of-entities/search-entities#boolean-searches)
+* [Open Alex filters](https://docs.openalex.org/api-entities/works/search-works)
+* [Open Alex rate limits and authentication](https://docs.openalex.org/how-to-use-the-api/rate-limits-and-authentication)
+
+This library obeys the rate limits of the OpenAlex API (10 requests per second).
+
 ## Usage
 
 You can interact with the CLI using `pn`. For example, to search for papers on
