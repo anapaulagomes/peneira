@@ -56,10 +56,19 @@ def map_to_bibtex_type(capsule):
 
     authors = " and ".join(authors_list)
     institutions = ", ".join(institutions_list)
-    countries = ", ".join(set(countries))
-    keywords = ", ".join(
+    countries = ", ".join(sorted(set(countries)))
+    all_keywords = []
+    all_keywords.extend(
         [keyword["display_name"] for keyword in result.get("keywords", [])]
     )
+    all_keywords.extend(
+        [keyword["descriptor_name"] for keyword in result.get("mesh", [])]
+    )
+    all_keywords.extend(
+        [keyword["display_name"] for keyword in result.get("concepts", [])]
+    )
+    all_keywords = ", ".join(sorted(set(all_keywords)))
+
     return {
         "id": result.get("id", ""),
         "doi": result.get("doi", ""),
@@ -71,10 +80,9 @@ def map_to_bibtex_type(capsule):
         "country": countries,
         "language": result.get("language", ""),
         "type": result.get("type", ""),
-        "indexed_in": ", ".join(result.get("indexed_in", [])),
         "open_access": result.get("open_access", {}).get("oa_status", ""),
         "abstract": "",  # this source does not provide abstracts
-        "keywords": keywords,
+        "keywords": all_keywords,
         "url": capsule.get("url", ""),
         "source": capsule.get("source", ""),
         "created_at": capsule.get("created_at", ""),

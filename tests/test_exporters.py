@@ -3,7 +3,7 @@ from datetime import datetime
 from unittest import mock
 from unittest.mock import call
 
-from pn.exporters import write_results_to_file, to_json, to_bibtex
+from pn.exporters import write_results_to_file, to_json
 import aiofiles
 import time_machine
 
@@ -91,38 +91,3 @@ def test_to_json():
     }
 
     assert json.loads(to_json(capsule)) == capsule
-
-
-def test_export_to_bibtex():
-    capsule = {
-        "source": "open_alex",
-        "url": "https://www.semanticscholar.org/paper/be6acf8d2e8e33b498c6b2c99b770ea0af8ebafe",
-        "result": {
-            "id": "https://openalex.org/W4361280476",
-            "doi": "https://doi.org/10.3390/ani13071196",
-            "title": "Peste Des Petits Ruminants in the Middle East: "
-            "Epidemiological Situation and Status of Control and Eradication "
-            "Activities after the First Phase of the PPR Global Eradication "
-            "Program (2017\u20132021)",
-            "updated_date": "2024-05-11T02:05:05.673802",
-            "created_date": "2023-03-31",
-        },
-        "created_at": str(datetime.now()),
-    }
-    expected_bibtex = """
-@article{be6acf8d2e8e33b498c6b2c99b770ea0af8ebafe,
-title = {Accuracy of three classifiers of acute gastrointestinal
-syndrome for syndromic surveillance},
-year = {2002},
-url = {https://www.openalex.org/},
-abstract = {ICD-9-coded emergency department...},
-author = {Oleg Ivanov and M. Wagner and W. Chapman and Robert T. Olszewski},
-journal = {Proceedings. AMIA Symposium},
-volume = {null},
-pages = {345-9},
-doi = {10.1093/IJE/23.4.849},
-pmid = {12463844},
-}
-    """
-
-    assert to_bibtex(capsule) == expected_bibtex
