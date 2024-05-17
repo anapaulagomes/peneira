@@ -30,6 +30,8 @@ This library obeys the rate limits of the OpenAlex API (10 requests per second).
 
 ## Usage
 
+### CLI
+
 You can interact with the CLI using `pn`. For example, to search for papers on
 _"artificial intelligence" and "syndromic surveillance"_ and save the results to a file, you can run:
 
@@ -38,6 +40,13 @@ pn '"artificial intelligence" and "syndromic surveillance"' --filename my-papers
 ```
 
 It will search for papers in OpenAlex and store it in a file named `my-papers.json`.
+You have also the option of export it to a bibtex file:
+
+```bash
+pn '"artificial intelligence" and "public health"' --format bibtex --filename my-papers.bib
+```
+
+### Python module
 
 In case you want to call the OpenAlex source directly, you can use the following code:
 
