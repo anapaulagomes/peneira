@@ -2,7 +2,7 @@ import asyncio
 
 import asyncclick as click
 
-from pn.exporters import write_results_to_file
+from pn.exporters import write_results_to_file, to_json, to_bibtex
 from pn.sources.open_alex import establish_number_of_pages, fetch_papers
 
 
@@ -17,10 +17,20 @@ async def cli():
     "--filename",
     "-f",
     default="results.json",
-    help="Filename with extension. Example: -f results.json",
+    help="Filename with extension. Example: -f results.bib",
 )
-async def cli(query, filename):
+@click.option(
+    "--output", "-o", default="json", help="Output format. Options: json, bibtex."
+)
+async def cli(query, filename, output):
     """Fetch articles from different sources using given QUERY."""
+    if output.lower() == "bibtex":
+        output_format_func = to_bibtex
+    elif output.lower() == "json":
+        output_format_func = to_json
+    else:
+        raise ValueError(f"Unsupported format {output}")
+
     number_of_pages, total = await establish_number_of_pages(query)
     click.echo(
         f"Fetching articles for OPEN_ALEX... {total} papers "
@@ -30,7 +40,7 @@ async def cli(query, filename):
     results = await asyncio.gather(*tasks)
 
     for result_bundle in results:
-        await write_results_to_file(result_bundle, filename)
+        await write_results_to_file(result_bundle, filename, output_format_func)
     click.echo("Done.")
 
 

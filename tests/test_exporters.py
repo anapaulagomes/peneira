@@ -1,8 +1,9 @@
 import json
+from datetime import datetime
 from unittest import mock
 from unittest.mock import call
 
-from pn.exporters import write_results_to_file
+from pn.exporters import write_results_to_file, to_json
 import aiofiles
 import time_machine
 
@@ -70,3 +71,23 @@ async def test_write_results_to_file():
 
         assert received_results == results
         mock_file_stream.write.assert_has_calls(expected_calls)
+
+
+def test_to_json():
+    capsule = {
+        "source": "open_alex",
+        "url": "https://openalex.org/W4361280476",
+        "result": {
+            "id": "https://openalex.org/W4361280476",
+            "doi": "https://doi.org/10.3390/ani13071196",
+            "title": "Peste Des Petits Ruminants in the Middle East: "
+            "Epidemiological Situation and Status of Control and Eradication "
+            "Activities after the First Phase of the PPR Global Eradication "
+            "Program (2017\u20132021)",
+            "updated_date": "2024-05-11T02:05:05.673802",
+            "created_date": "2023-03-31",
+        },
+        "created_at": str(datetime.now()),
+    }
+
+    assert json.loads(to_json(capsule)) == capsule

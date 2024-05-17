@@ -34,3 +34,56 @@ async def establish_number_of_pages(query):
         if pages != 1 and pages % 2 != 0:
             pages += 1
         return math.trunc(pages), total
+
+
+def map_to_bibtex_type(capsule):
+    result = capsule["result"]
+    authors_list = []
+    institutions_list = []
+    countries = []
+    authorships = result.get("authorships", [{}])
+    for authorship in authorships:
+        authors_list.append(authorship.get("author", {}).get("display_name", ""))
+        if authorship.get("institutions"):
+            institutions_list.extend(
+                [
+                    institution.get("display_name", "")
+                    for institution in authorship.get("institutions")
+                ]
+            )
+        if authorship.get("countries"):
+            countries.extend(authorship["countries"])
+
+    authors = " and ".join(authors_list)
+    institutions = ", ".join(institutions_list)
+    countries = ", ".join(sorted(set(countries)))
+    all_keywords = []
+    all_keywords.extend(
+        [keyword["display_name"] for keyword in result.get("keywords", [])]
+    )
+    all_keywords.extend(
+        [keyword["descriptor_name"] for keyword in result.get("mesh", [])]
+    )
+    all_keywords.extend(
+        [keyword["display_name"] for keyword in result.get("concepts", [])]
+    )
+    all_keywords = ", ".join(sorted(set(all_keywords)))
+
+    return {
+        "id": result.get("id", ""),
+        "doi": result.get("doi", ""),
+        "title": result.get("title", ""),
+        "year": result.get("publication_year", ""),
+        "date": result.get("publication_date", ""),
+        "authors": authors,
+        "institutions": institutions,
+        "country": countries,
+        "language": result.get("language", ""),
+        "type": result.get("type", ""),
+        "open_access": result.get("open_access", {}).get("oa_status", ""),
+        "abstract": "",  # this source does not provide abstracts
+        "keywords": all_keywords,
+        "url": capsule.get("url", ""),
+        "source": capsule.get("source", ""),
+        "created_at": capsule.get("created_at", ""),
+    }

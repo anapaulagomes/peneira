@@ -15,7 +15,7 @@ in different sources and export the results.
 - [x] [OpenAlex](https://openalex.org/)
 - [ ] [Semantic Scholar](https://www.semanticscholar.org/)
 
-...and many more to come!
+...and [many more to come](https://en.wikipedia.org/wiki/List_of_academic_databases_and_search_engines)!
 
 ### OpenAlex
 
