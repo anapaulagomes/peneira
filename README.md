@@ -13,9 +13,10 @@ in different sources and export the results.
 ## Available sources
 
 - [x] [OpenAlex](https://openalex.org/)
-- [ ] [Semantic Scholar](https://www.semanticscholar.org/)
 
-...and [many more to come](https://en.wikipedia.org/wiki/List_of_academic_databases_and_search_engines)!
+...and [many more to come](https://github.com/anapaulagomes/peneira/issues?q=is%3Aissue+is%3Aopen+label%3Asources)!
+Feel free to contribute. There is [a world of papers](https://en.wikipedia.org/wiki/List_of_academic_databases_and_search_engines)
+out there!
 
 ### OpenAlex
 
