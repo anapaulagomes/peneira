@@ -1,6 +1,6 @@
 # peneira
 
-[![Tests](https://github.com/anapaulagomes/peneira/actions/workflows/tests.yml/badge.svg)](https://github.com/anapaulagomes/peneira/actions/workflows/tests.yml)
+![PyPI - Version](https://img.shields.io/pypi/v/peneira) [![Tests](https://github.com/anapaulagomes/peneira/actions/workflows/tests.yml/badge.svg)](https://github.com/anapaulagomes/peneira/actions/workflows/tests.yml)
 
 It's time to sift through some articles 🤭
 
