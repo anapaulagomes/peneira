@@ -2,7 +2,7 @@ import math
 
 import httpx
 
-from pn.sources import ResultBundle
+from peneira.sources import ResultBundle
 from aiolimiter import AsyncLimiter
 
 

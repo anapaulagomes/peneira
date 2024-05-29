@@ -3,11 +3,11 @@ from datetime import datetime
 from unittest import mock
 from unittest.mock import call
 
-from pn.exporters import write_results_to_file, to_json
+from peneira.exporters import write_results_to_file, to_json
 import aiofiles
 import time_machine
 
-from pn.sources import ResultBundle
+from peneira.sources import ResultBundle
 
 # taken from https://github.com/Tinche/aiofiles?tab=readme-ov-file#writing-tests-for-aiofiles
 aiofiles.threadpool.wrap.register(mock.MagicMock)(

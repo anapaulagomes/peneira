@@ -32,18 +32,18 @@ This library obeys the rate limits of the OpenAlex API (10 requests per second).
 
 ### CLI
 
-You can interact with the CLI using `pn`. For example, to search for papers on
+You can interact with the CLI using `peneira`. For example, to search for papers on
 _"artificial intelligence" and "syndromic surveillance"_ and save the results to a file, you can run:
 
 ```bash
-pn '"artificial intelligence" and "syndromic surveillance"' --filename my-papers.json
+peneira '"artificial intelligence" and "syndromic surveillance"' --filename my-papers.json
 ```
 
 It will search for papers in OpenAlex and store it in a file named `my-papers.json`.
 You have also the option of export it to a bibtex file:
 
 ```bash
-pn '"artificial intelligence" and "public health"' --format bibtex --filename my-papers.bib
+peneira '"artificial intelligence" and "public health"' --format bibtex --filename my-papers.bib
 ```
 
 ### Python module
@@ -52,7 +52,7 @@ In case you want to call the OpenAlex source directly, you can use the following
 
 ```python
 import asyncio
-from pn.sources.open_alex import fetch_papers
+from peneira.sources.open_alex import fetch_papers
 
 asyncio.run(fetch_papers("artificial intelligence AND public health"))
 ```

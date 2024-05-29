@@ -2,8 +2,8 @@ import asyncio
 
 import asyncclick as click
 
-from pn.exporters import write_results_to_file, to_json, to_bibtex
-from pn.sources.open_alex import establish_number_of_pages, fetch_papers
+from peneira.exporters import write_results_to_file, to_json, to_bibtex
+from peneira.sources.open_alex import establish_number_of_pages, fetch_papers
 
 
 @click.group()

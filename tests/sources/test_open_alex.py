@@ -4,8 +4,8 @@ from datetime import datetime
 import httpx
 import pytest
 
-from pn.exporters import to_bibtex
-from pn.sources.open_alex import fetch_papers, establish_number_of_pages
+from peneira.exporters import to_bibtex
+from peneira.sources.open_alex import fetch_papers, establish_number_of_pages
 
 
 @pytest.mark.respx(base_url="https://api.openalex.org")

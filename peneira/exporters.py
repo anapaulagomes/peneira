@@ -2,7 +2,7 @@ import aiofiles
 
 import json
 
-from pn.sources.open_alex import map_to_bibtex_type
+from peneira.sources.open_alex import map_to_bibtex_type
 
 
 def to_json(capsule):
