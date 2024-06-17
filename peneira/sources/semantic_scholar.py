@@ -22,7 +22,7 @@ async def search_semantic_scholar(query, token=None):
             f"{BASE_URL}paper/search/bulk?query={query}&", params=params
         )
         results = response.json().get("data", [])
-        return ResultBundle(url=str(response.url), source=SOURCE, results=results)
-
-
-# TODO get token semantic scholar
+        token = response.json().get("token")
+        return ResultBundle(
+            url=str(response.url), source=SOURCE, results=results, _token=token
+        )

@@ -8,5 +8,6 @@ class ResultBundle:
 
     url: str
     source: str
+    _token: str = None
     results: list[dict] = field(default_factory=list, repr=False)
     created_at: datetime = field(default_factory=datetime.now)
