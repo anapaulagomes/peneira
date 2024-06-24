@@ -17,6 +17,7 @@ rate_limiter = AsyncLimiter(60)  # 60 request per minute
 
 
 async def search_semantic_scholar(query, token=None):
+    # Each call will return a new token that must be used to continue.
     params = {
         "fields": SEMANTIC_SCHOLAR_FIELDS,
         "token": token,
