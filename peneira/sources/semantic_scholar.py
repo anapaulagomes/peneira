@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 import httpx
 from aiolimiter import AsyncLimiter
 
@@ -16,19 +18,36 @@ SEMANTIC_SCHOLAR_FIELDS = (
 rate_limiter = AsyncLimiter(60)  # 60 request per minute
 
 
-async def search_semantic_scholar(query, token=None):
-    # Each call will return a new token that must be used to continue.
-    params = {
-        "fields": SEMANTIC_SCHOLAR_FIELDS,
-        "token": token,
-    }
-    async with rate_limiter:  # wait for a slot to be available
-        async with httpx.AsyncClient() as client:
-            response = await client.get(
-                f"{BASE_URL}paper/search/bulk?query={query}&", params=params
-            )
-            results = response.json().get("data", [])
-            token = response.json().get("token")
-            return ResultBundle(
-                url=str(response.url), source=SOURCE, results=results, _token=token
-            )
+@dataclass
+class SemanticScholar:
+    query: str
+    _token: str = None
+
+    def __post_init__(self):
+        self._fields = SEMANTIC_SCHOLAR_FIELDS
+
+    async def search(self, _result_bundle=None):
+        # Each call will return a new token that must be used to continue.
+        params = {"fields": self._fields}
+        if self._token:
+            params["token"] = self._token
+
+        async with rate_limiter:  # wait for a slot to be available
+            async with httpx.AsyncClient() as client:
+                response = await client.get(
+                    f"{BASE_URL}paper/search/bulk?query={self.query}&", params=params
+                )
+                self._token = response.json().get("token")
+
+                results = response.json().get("data", [])
+                if _result_bundle is None:
+                    _result_bundle = ResultBundle(
+                        url=str(response.url), source=SOURCE, results=results
+                    )
+                else:
+                    _result_bundle.results.extend(results)
+
+                if self._token:
+                    return await self.search(_result_bundle=_result_bundle)
+
+                return _result_bundle

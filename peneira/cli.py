@@ -4,7 +4,7 @@ import asyncclick as click
 
 from peneira.exporters import write_results_to_file, to_json, to_bibtex
 from peneira.sources.open_alex import establish_number_of_pages, fetch_papers
-from peneira.sources.semantic_scholar import search_semantic_scholar
+from peneira.sources.semantic_scholar import SemanticScholar
 
 
 async def create_open_alex_tasks(query):
@@ -19,7 +19,8 @@ async def create_open_alex_tasks(query):
 
 async def create_semantic_scholar_tasks(query):
     click.echo("Fetching articles for SEMANTIC_SCHOLAR...")
-    result = await search_semantic_scholar(query)
+    semantic_scholar = SemanticScholar(query=query)
+    return [semantic_scholar.search()]
 
 
 sources_func = {
@@ -60,12 +61,16 @@ async def cli(filename, sources, output):
     else:
         raise ValueError(f"Unsupported format {output}")
 
-    source_search_strings = {}
+    all_tasks = []
     for source in sources:
         search_string = click.prompt(f"Please enter the search string for {source}")
-        source_search_strings[source] = search_string
+        try:
+            all_tasks.extend(await sources_func[source](search_string))
+        except ValueError:
+            raise ValueError(f"Unsupported source {source}")
 
-    results = await asyncio.gather(*tasks)
+    click.echo("Executing the search...")
+    results = await asyncio.gather(*all_tasks)
 
     for result_bundle in results:
         await write_results_to_file(result_bundle, filename, output_format_func)
