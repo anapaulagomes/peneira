@@ -1,6 +1,5 @@
 import httpx
 from aiolimiter import AsyncLimiter
-from datetime import datetime
 from peneira.sources import ResultBundle
 
 
@@ -8,7 +7,6 @@ BASE_URL = "https://api.core.ac.uk/v3/search"
 SOURCE = "CORE"
 # allows 1,000 tokens per day, maximum 10 per minute for unregistered users
 rate_limiter = AsyncLimiter(10)
-# TODO add support to registered users
 
 
 async def fetch_papers(query, limit=10, offset=0):
