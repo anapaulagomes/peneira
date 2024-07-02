@@ -3,8 +3,11 @@ from dataclasses import dataclass
 import httpx
 from aiolimiter import AsyncLimiter
 
+from peneira import setup_logger
 from peneira.sources import ResultBundle
 
+
+logger = setup_logger(__name__)
 
 BASE_URL = "https://api.semanticscholar.org/graph/v1/"
 SOURCE = "semantic_scholar"
@@ -51,3 +54,9 @@ class SemanticScholar:
                     return await self.search(_result_bundle=_result_bundle)
 
                 return _result_bundle
+
+
+async def search_semantic_scholar(query):
+    logger.info("Fetching articles for SEMANTIC_SCHOLAR...")
+    semantic_scholar = SemanticScholar(query=query)
+    return [semantic_scholar.search()]

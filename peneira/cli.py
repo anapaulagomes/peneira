@@ -3,29 +3,12 @@ import asyncio
 import asyncclick as click
 
 from peneira.exporters import write_results_to_file, to_json, to_bibtex
-from peneira.sources.open_alex import establish_number_of_pages, fetch_papers
-from peneira.sources.semantic_scholar import SemanticScholar
+from peneira.sources.open_alex import search_open_alex
+from peneira.sources.semantic_scholar import search_semantic_scholar
 
-
-async def create_open_alex_tasks(query):
-    number_of_pages, total = await establish_number_of_pages(query)
-    click.echo(
-        f"Fetching articles for OPEN_ALEX... {total} papers "
-        f"distributed in {number_of_pages} pages."
-    )
-    tasks = [fetch_papers(query, page) for page in range(1, number_of_pages + 1)]
-    return tasks
-
-
-async def create_semantic_scholar_tasks(query):
-    click.echo("Fetching articles for SEMANTIC_SCHOLAR...")
-    semantic_scholar = SemanticScholar(query=query)
-    return [semantic_scholar.search()]
-
-
-sources_func = {
-    "open_alex": create_open_alex_tasks,
-    "semantic_scholar": create_semantic_scholar_tasks,
+sources_search_func = {
+    "open_alex": search_open_alex,
+    "semantic_scholar": search_semantic_scholar,
 }
 
 
@@ -65,7 +48,7 @@ async def cli(filename, sources, output):
     for source in sources:
         search_string = click.prompt(f"Please enter the search string for {source}")
         try:
-            all_tasks.extend(await sources_func[source](search_string))
+            all_tasks.extend(await sources_search_func[source](search_string))
         except ValueError:
             raise ValueError(f"Unsupported source {source}")
 
