@@ -30,7 +30,6 @@ class SemanticScholar:
         self._fields = SEMANTIC_SCHOLAR_FIELDS
 
     async def search(self, _result_bundle=None):
-        # Each call will return a new token that must be used to continue.
         params = {"fields": self._fields}
         if self._token:
             params["token"] = self._token
