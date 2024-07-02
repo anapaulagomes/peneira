@@ -1,0 +1,38 @@
+name: Publish to PyPI
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version type to bump: major, minor, patch'
+        required: true
+        default: 'patch'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11.3'
+        cache: 'poetry'
+    - name: Install Poetry
+      run: |
+        pip install --upgrade pip
+        pip install poetry==1.8.2
+    - name: Bump version and publish to PyPI
+      env:
+        POETRY_PYPI_TOKEN_PYPI: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
+      run: |
+        poetry config pypi-token.pypi $POETRY_PYPI_TOKEN_PYPI
+        poetry version ${{ github.event.inputs.version }}
+        poetry build
+        poetry publish
+    - name: Commit new version
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git commit -am "Bump version to ${{ github.event.inputs.version }}"
+        git push
