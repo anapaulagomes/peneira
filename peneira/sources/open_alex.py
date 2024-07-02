@@ -2,10 +2,12 @@ import math
 
 import httpx
 
+from peneira import setup_logger
 from peneira.sources import ResultBundle
 from aiolimiter import AsyncLimiter
 
 
+logger = setup_logger(__name__)
 BASE_URL = "https://api.openalex.org"
 WORKS_PER_PAGE = 200
 SOURCE = "open_alex"
@@ -87,3 +89,13 @@ def map_to_bibtex_type(capsule):
         "source": capsule.get("source", ""),
         "created_at": capsule.get("created_at", ""),
     }
+
+
+async def search_open_alex(query):
+    number_of_pages, total = await establish_number_of_pages(query)
+    logger.info(
+        f"Fetching articles for OPEN_ALEX... {total} papers "
+        f"distributed in {number_of_pages} pages."
+    )
+    tasks = [fetch_papers(query, page) for page in range(1, number_of_pages + 1)]
+    return tasks

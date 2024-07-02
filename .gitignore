@@ -163,3 +163,5 @@ data/
 !data/.keep
 *.json
 *.bib
+
+!**/*/fixtures/*.json

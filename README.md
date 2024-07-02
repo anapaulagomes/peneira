@@ -13,6 +13,7 @@ in different sources and export the results.
 ## Available sources
 
 - [x] [OpenAlex](https://openalex.org/)
+- [x] [Semantic Scholar](https://api.semanticscholar.org/)
 
 ...and [many more to come](https://github.com/anapaulagomes/peneira/issues?q=is%3Aissue+is%3Aopen+label%3Asources)!
 Feel free to contribute. There is [a world of papers](https://en.wikipedia.org/wiki/List_of_academic_databases_and_search_engines)
@@ -37,23 +38,15 @@ You can interact with the CLI using `peneira`. For example, to search for papers
 _"artificial intelligence" and "syndromic surveillance"_ and save the results to a file, you can run:
 
 ```bash
-peneira '"artificial intelligence" and "syndromic surveillance"' --filename my-papers.json
+peneira -s open_alex -s semantic_scholar --filename my-papers.json
 ```
 
-It will search for papers in OpenAlex and store it in a file named `my-papers.json`.
+You will be prompted to enter the search query for each source. The lib will search for papers in
+OpenAlex and Semantic Scholar and store it in a file named `my-papers.json`.
+If no filename is provided, the results will be stored to `results.json`.
+
 You have also the option of export it to a bibtex file:
 
 ```bash
-peneira '"artificial intelligence" and "public health"' --format bibtex --filename my-papers.bib
-```
-
-### Python module
-
-In case you want to call the OpenAlex source directly, you can use the following code:
-
-```python
-import asyncio
-from peneira.sources.open_alex import fetch_papers
-
-asyncio.run(fetch_papers("artificial intelligence AND public health"))
+peneira -s open_alex -s semantic_scholar --format bibtex --filename my-papers.bib
 ```
