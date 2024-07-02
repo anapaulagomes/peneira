@@ -7,6 +7,11 @@ on:
         description: 'Version type to bump: major, minor, patch'
         required: true
         default: 'patch'
+        type: choice
+        options:
+        - patch
+        - minor
+        - major
 
 jobs:
   publish:
