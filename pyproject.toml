@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "peneira"
-version = "0.1.0"
+version = "0.2.0"
 description = "Peneira: academic papers from many sources in one command"
 authors = ["Ana Paula Gomes <apgomes88@gmail.com>"]
 license = "MIT"
