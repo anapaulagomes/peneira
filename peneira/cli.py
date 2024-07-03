@@ -3,12 +3,14 @@ import asyncio
 import asyncclick as click
 
 from peneira.exporters import write_results_to_file, to_json, to_bibtex
+from peneira.sources.core import search_core
 from peneira.sources.open_alex import search_open_alex
 from peneira.sources.semantic_scholar import search_semantic_scholar
 
 sources_search_func = {
     "open_alex": search_open_alex,
     "semantic_scholar": search_semantic_scholar,
+    "core": search_core,
 }
 
 
@@ -29,7 +31,7 @@ async def cli():
     "-s",
     multiple=True,
     default=["open_alex"],
-    help="Articles sources. Options: open_alex, semantic_scholar.",
+    help="Articles sources. Options: open_alex, semantic_scholar, core.",
     show_default=True,
 )
 @click.option(
