@@ -36,7 +36,7 @@ async def test_return_all_results_from_first_page(respx_mock):
         "search=machine%20learning%20AND%20public%20health&page=1&per-page=200"
     )
 
-    payload = json.loads(open("tests/sources/fixtures/works.json").read())
+    payload = json.loads(open("tests/sources/fixtures/open_alex.json").read())
     respx_mock.get("/works").mock(return_value=httpx.Response(200, json=payload))
     query = "machine learning AND public health"
 
@@ -50,7 +50,7 @@ async def test_return_all_results_from_first_page(respx_mock):
 
 @pytest.mark.respx(base_url="https://api.openalex.org")
 async def test_add_support_to_pagination(respx_mock):
-    payload = json.loads(open("tests/sources/fixtures/works.json").read())
+    payload = json.loads(open("tests/sources/fixtures/open_alex.json").read())
     respx_mock.get("/works").mock(return_value=httpx.Response(200, json=payload))
     query = "machine learning AND public health"
 
@@ -72,7 +72,7 @@ async def test_add_support_to_pagination(respx_mock):
 )
 @pytest.mark.respx(base_url="https://api.openalex.org")
 async def test_establish_number_of_pages(respx_mock, expected_total, expected_pages):
-    payload = json.loads(open("tests/sources/fixtures/works.json").read())
+    payload = json.loads(open("tests/sources/fixtures/open_alex.json").read())
     payload["meta"]["count"] = expected_total
     respx_mock.get("/works").mock(return_value=httpx.Response(200, json=payload))
     query = "machine learning AND public health"
