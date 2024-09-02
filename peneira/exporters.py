@@ -22,7 +22,7 @@ def to_bibtex(capsule):
 
 
 async def write_results_to_file(result_bundle, filename, output_format_func=to_json):
-    async with aiofiles.open(filename, "a") as file:
+    async with aiofiles.open(filename, "a", encoding="utf-8") as file:
         for result in result_bundle.results:
             capsule = {
                 "source": result_bundle.source,
