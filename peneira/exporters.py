@@ -22,7 +22,7 @@ def to_bibtex(capsule):
 
 
 async def write_results_to_file(result_bundle, filename, output_format_func=to_json):
-    async with aiofiles.open(filename, "a") as file:
+    async with aiofiles.open(filename, "a", encoding="utf-8") as file:
         for result in result_bundle.results:
             capsule = {
                 "source": result_bundle.source,
@@ -31,5 +31,5 @@ async def write_results_to_file(result_bundle, filename, output_format_func=to_j
                 "created_at": str(result_bundle.created_at),
             }
 
-            await file.write(f"{output_format_func(capsule)}\n", encoding="utf-8")
+            await file.write(f"{output_format_func(capsule)}\n")
     return result_bundle.results

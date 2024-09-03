@@ -6,7 +6,7 @@ from unittest.mock import call
 from peneira.exporters import write_results_to_file, to_json
 import aiofiles
 import time_machine
-
+from zoneinfo import ZoneInfo
 from peneira.sources import ResultBundle
 
 # taken from https://github.com/Tinche/aiofiles?tab=readme-ov-file#writing-tests-for-aiofiles
@@ -15,7 +15,7 @@ aiofiles.threadpool.wrap.register(mock.MagicMock)(
 )
 
 
-@time_machine.travel("1970-01-01 00:00:00")
+@time_machine.travel(datetime(1970, 1, 1, 10, 59, 0))  # naive, so UTC
 async def test_write_results_to_file():
     results = [
         {
@@ -41,13 +41,13 @@ async def test_write_results_to_file():
         "source": "open_alex",
         "url": "https://www.openalex.org",
         "result": results[0],
-        "created_at": "1970-01-01 00:00:00",
+        "created_at": "1970-01-01 11:59:00",
     }
     call_data_2 = {
         "source": "open_alex",
         "url": "https://www.openalex.org",
         "result": results[1],
-        "created_at": "1970-01-01 00:00:00",
+        "created_at": "1970-01-01 11:59:00",
     }
     expected_calls = [
         call(f"{json.dumps(call_data_1)}\n"),
