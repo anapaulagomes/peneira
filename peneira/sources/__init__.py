@@ -9,4 +9,4 @@ class ResultBundle:
     url: str
     source: str
     results: list[dict] = field(default_factory=list, repr=False)
-    created_at: datetime = field(default_factory=datetime.now)
+    created_at: datetime = field(default_factory=datetime.utcnow)
