@@ -23,12 +23,22 @@ out there!
 
 Here are some details about this source:
 
-* [OpenAlex data sources](https://help.openalex.org/how-it-works#our-data-sources)
-* [OpenAlex search syntax](https://docs.openalex.org/how-to-use-the-api/get-lists-of-entities/search-entities#boolean-searches)
-* [Open Alex filters](https://docs.openalex.org/api-entities/works/search-works)
-* [Open Alex rate limits and authentication](https://docs.openalex.org/how-to-use-the-api/rate-limits-and-authentication)
+* [Data sources](https://help.openalex.org/how-it-works#our-data-sources)
+* [Search syntax](https://docs.openalex.org/how-to-use-the-api/get-lists-of-entities/search-entities#boolean-searches)
+* [Filters](https://docs.openalex.org/api-entities/works/search-works)
+* [Rate limits and authentication](https://docs.openalex.org/how-to-use-the-api/rate-limits-and-authentication)
 
 This library obeys the rate limits of the OpenAlex API (10 requests per second).
+
+### Semantic Scholar
+
+Here are some details about this source:
+
+* [Data sources](https://www.semanticscholar.org/about/publishers)
+* [Search syntax](https://api.semanticscholar.org/api-docs/#tag/Paper-Data/operation/get_graph_paper_bulk_search)
+* [Rate limits and authentication](https://www.semanticscholar.org/product/api)
+
+This library obeys the rate limits of the Semantic Scholar API (1 request per second).
 
 ## Usage
 
