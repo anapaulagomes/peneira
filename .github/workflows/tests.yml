@@ -3,23 +3,28 @@ name: Tests
 on: [push]
 
 jobs:
-  build:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11.3'
+      - uses: astral-sh/setup-uv@v5
+      - name: Pre-commit to rule them all
+        run: uv run pre-commit run --all-files
+  tests:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
     steps:
-    - uses: actions/checkout@v4
-    - name: Install Poetry
-      run: |
-        pip install --upgrade pip
-        pip install poetry==1.8.2
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11.3'
-        cache: 'poetry'
-    - name: Install dependencies
-      run: poetry install
-    - name: Run tests
-      run: poetry run pytest -v
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11.3'
+      - uses: astral-sh/setup-uv@v5
+      - run: uv run pytest
