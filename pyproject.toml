@@ -1,34 +1,36 @@
-[tool.poetry]
+[project]
 name = "peneira"
 version = "0.2.1"
 description = "Peneira: academic papers from many sources in one command"
-authors = ["Ana Paula Gomes <apgomes88@gmail.com>"]
-license = "MIT"
+authors = [{ name = "Ana Paula Gomes", email = "apgomes88@gmail.com" }]
+requires-python = ">=3.11,<4"
 readme = "README.md"
+license = "MIT"
+dependencies = [
+    "jupyter>=1.0.0,<2",
+    "httpx>=0.27.0,<0.28",
+    "asyncclick>=8.1.7.2,<9",
+    "aiofiles>=23.2.1,<24",
+    "aiolimiter>=1.1.0,<2",
+    "bibtexparser>=1.4.1,<2",
+    "tzdata>=2024.1,<2025",
+]
 
-[tool.poetry.scripts]
+[project.scripts]
 peneira = "peneira.cli:main"
 
-[tool.poetry.dependencies]
-python = "^3.11"
-jupyter = "^1.0.0"
-httpx = "^0.27.0"
-asyncclick = "^8.1.7.2"
-aiofiles = "^23.2.1"
-aiolimiter = "^1.1.0"
-bibtexparser = "^1.4.1"
-tzdata = "^2024.1"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.2.0"
-pre-commit = "^3.7.1"
-respx = "^0.21.1"
-pytest-asyncio = "^0.23.6"
-time-machine = "^2.14.1"
+[dependency-groups]
+dev = [
+    "pytest>=8.2.0,<9",
+    "pre-commit>=3.7.1,<4",
+    "respx>=0.21.1,<0.22",
+    "pytest-asyncio>=0.23.6,<0.24",
+    "time-machine>=2.14.1,<3",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
